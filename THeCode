@@ -1,0 +1,235 @@
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+
+// Define the maximum number of digits in the result
+#define MAX_DIGITS 1000
+
+// Function to calculate factorial
+void calculateFactorial(int n) {
+    int result[MAX_DIGITS] = { 0 };  // Initialize an array to store the result
+    result[0] = 1;  // Initialize the result as 1
+
+    // Perform the multiplication for each number from 2 to n
+    for (int i = 2; i <= n; i++) {
+        int carry = 0;
+
+        // Multiply result with the current number
+        for (int j = 0; j < MAX_DIGITS; j++) {
+            int product = result[j] * i + carry;
+            result[j] = product % 10;
+            carry = product / 10;
+        }
+    }
+
+    // Find the last non-zero digit in the result
+    int lastIndex = MAX_DIGITS - 1;
+    while (lastIndex >= 0 && result[lastIndex] == 0) {
+        lastIndex--;
+    }
+
+    // Print the result in reverse order
+    printf("Factorial of %d is: ", n);
+    for (int i = lastIndex; i >= 0; i--) {
+        printf("%d", result[i]);
+    }
+
+    printf("\n");
+}
+
+// Function to generate Fibonacci series
+void generateFibonacci(int n) {
+    int first = 0, second = 1, next;
+
+    printf("Fibonacci series up to %d terms:\n", n);
+
+    for (int i = 0; i < n; i++) {
+        printf("%d, ", first);
+        next = first + second;
+        first = second;
+        second = next;
+    }
+
+    printf("\n");
+}
+
+// Function to calculate the sum of digits
+void calculateSumOfDigits(int num) {
+    int sum = 0;
+    int tempNum = num;
+
+    while (tempNum > 0) {
+        sum += tempNum % 10;
+        tempNum /= 10;
+    }
+
+    printf("Sum of digits of %d is: %d\n", num, sum);
+}
+
+// Function to check if a number is prime
+int isPrime(int num) {
+    if (num < 2) {
+        return 0;  // Not prime
+    }
+
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) {
+            return 0;  // Not prime
+        }
+    }
+
+    return 1;  // Prime
+}
+
+// Function to check if a number is a palindrome
+int isPalindrome(int num) {
+    int originalNum = num;
+    int reversedNum = 0;
+
+    while (num > 0) {
+        reversedNum = reversedNum * 10 + num % 10;
+        num /= 10;
+    }
+
+    return originalNum == reversedNum;
+}
+
+// Function to generate multiplication table
+void generateTable(int n) {
+    printf("Multiplication table for %d:\n", n);
+
+    for (int i = 1; i <= 10; i++) {
+        printf("%d x %d = %d\n", n, i, n * i);
+    }
+}
+
+// Function to find factors of a number
+void findFactors(int num) {
+    printf("Factors of %d are: ", num);
+
+    for (int i = 1; i <= num; i++) {
+        if (num % i == 0) {
+            printf("%d, ", i);
+        }
+    }
+
+    printf("\n");
+}
+
+// Function to reverse the digits of a number
+void reverseNumber(int num) {
+    int reversedNum = 0;
+
+    while (num > 0) {
+        reversedNum = reversedNum * 10 + num % 10;
+        num /= 10;
+    }
+
+    printf("Reversed number: %d\n", reversedNum);
+}
+
+// Function to check if a number is Armstrong
+int isArmstrong(int num) {
+    int originalNum = num;
+    int numDigits = 0;
+    int sum = 0;
+
+    // Count the number of digits
+    while (num != 0) {
+        num /= 10;
+        numDigits++;
+    }
+
+    // Reset num to the original value
+    num = originalNum;
+
+    // Calculate the sum of each digit raised to the power of the number of digits
+    while (num != 0) {
+        int digit = num % 10;
+        sum += pow(digit, numDigits);
+        num /= 10;
+    }
+
+    return originalNum == sum;
+}
+
+int main() {
+    int choice, n;
+
+    // Get the user's choice
+    printf("Choose an operation:\n");
+    printf("1. Calculate factorial\n");
+    printf("2. Generate Fibonacci series\n");
+    printf("3. Calculate sum of digits\n");
+    printf("4. Check if a number is prime\n");
+    printf("5. Check if a number is palindrome\n");
+    printf("6. Generate multiplication table\n");
+    printf("7. Find factors of a number\n");
+    printf("8. Reverse a number\n");
+    printf("9. Check if a number is Armstrong\n");
+    printf("Enter your choice (1-9): ");
+    scanf_s("%d", &choice);
+
+    // Get the input value from the user
+    printf("Enter a value: ");
+    scanf_s("%d", &n);
+
+    switch (choice) {
+    case 1:
+        // Calculate and print the factorial
+        calculateFactorial(n);
+        break;
+    case 2:
+        // Generate and print Fibonacci series
+        generateFibonacci(n);
+        break;
+    case 3:
+        // Calculate and print the sum of digits
+        calculateSumOfDigits(n);
+        break;
+    case 4:
+        // Check if a number is prime
+        if (isPrime(n)) {
+            printf("%d is a prime number.\n", n);
+        }
+        else {
+            printf("%d is not a prime number.\n", n);
+        }
+        break;
+    case 5:
+        // Check if a number is palindrome
+        if (isPalindrome(n)) {
+            printf("%d is a palindrome.\n", n);
+        }
+        else {
+            printf("%d is not a palindrome.\n", n);
+        }
+        break;
+    case 6:
+        // Generate and print multiplication table
+        generateTable(n);
+        break;
+    case 7:
+        // Find and print factors of a number
+        findFactors(n);
+        break;
+    case 8:
+        // Reverse and print the digits of a number
+        reverseNumber(n);
+        break;
+    case 9:
+        // Check if a number is Armstrong
+        if (isArmstrong(n)) {
+            printf("%d is an Armstrong number.\n", n);
+        }
+        else {
+            printf("%d is not an Armstrong number.\n", n);
+        }
+        break;
+    default:
+        printf("Invalid choice\n");
+        return 1;  // Exit the program with an error code
+    }
+
+    return 0;  // Exit the program successfully
+}
